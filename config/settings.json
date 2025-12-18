@@ -1,0 +1,26 @@
+{
+  "monitoring": {
+    "gpu_update_interval": 2.5,
+    "system_metrics_interval": 5.0,
+    "enable_realtime_monitoring": true,
+    "max_history_points": 100
+  },
+  "ui": {
+    "theme": "dark",
+    "compact_mode": true,
+    "show_advanced_metrics": false,
+    "auto_refresh_dashboard": true
+  },
+  "models": {
+    "auto_unload_idle_models": false,
+    "idle_timeout_minutes": 30,
+    "default_gpu_allocation": "balanced",
+    "enable_model_preloading": false
+  },
+  "system": {
+    "log_level": "INFO",
+    "max_concurrent_tasks": 10,
+    "task_timeout_seconds": 300,
+    "enable_performance_profiling": false
+  }
+}

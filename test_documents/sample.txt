@@ -1,0 +1,14 @@
+This is a test document for the AI Agent Ecosystem.
+
+The document analysis feature can extract text from multiple formats including PDF, DOCX, RTF, and plain text files.
+
+Key features include:
+- Multi-file upload support
+- Text extraction and parsing
+- Task queue management
+- Real-time progress tracking
+- Database storage of results
+
+This system demonstrates the power of distributed AI processing where local file operations are handled efficiently while complex AI analysis is performed on remote GPU servers.
+
+The architecture supports scalable document processing workflows.
