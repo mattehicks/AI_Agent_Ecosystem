@@ -1,0 +1,146 @@
+# AI Agent Ecosystem System Configuration
+
+# System-wide settings
+system:
+  base_path: "X:/"
+  log_level: "INFO"
+  max_concurrent_tasks: 10
+  task_timeout: 300
+  cache_ttl: 3600  # 1 hour
+  max_workers: 4
+
+# Database configuration
+database:
+  path: "X:/AI_Agent_Ecosystem/data/orchestrator.db"
+  backup_interval: 3600  # 1 hour
+  cleanup_interval: 86400  # 24 hours
+  max_task_history: 10000
+
+# API server configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+  max_request_size: 10485760  # 10MB
+  timeout: 30
+
+# Agent configuration
+agents:
+  document_analyzer:
+    max_instances: 2
+    timeout: 120
+    memory_limit: "2GB"
+    max_document_size: 10485760  # 10MB
+    supported_formats: [".txt", ".rtf", ".md", ".docx"]
+    
+  code_generator:
+    max_instances: 1
+    timeout: 300
+    memory_limit: "4GB"
+    supported_languages: ["python", "javascript", "java", "c++", "c#", "go", "rust"]
+    
+  research_assistant:
+    max_instances: 2
+    timeout: 180
+    memory_limit: "3GB"
+    max_search_results: 50
+    
+  data_processor:
+    max_instances: 1
+    timeout: 240
+    memory_limit: "2GB"
+    supported_formats: [".csv", ".json", ".xml", ".xlsx"]
+    
+  task_coordinator:
+    max_instances: 1
+    timeout: 60
+    memory_limit: "1GB"
+    max_subtasks: 20
+
+# Model configuration
+models:
+  # Primary models for each task type
+  document_analysis:
+    primary: "dolphin-2.9.4-llama3.1-8b-Q4_K_M.gguf"
+    fallback: "mistral-7b-instruct-v0.1.Q4_0.gguf"
+    
+  code_generation:
+    primary: "Phind-CodeLlama-34B-v2"
+    fallback: "WizardCoder-15B-V1.0"
+    
+  research:
+    primary: "Wizard-Vicuna-30B-Uncensored"
+    fallback: "dolphin-2.9.4-llama3.1-8b-Q4_K_M.gguf"
+    
+  data_processing:
+    primary: "dolphin-2.9.4-llama3.1-8b-Q4_K_M.gguf"
+    fallback: "mistral-7b-instruct-v0.1.Q4_0.gguf"
+
+# Integration paths
+integrations:
+  privateGPT:
+    path: "X:/privateGPT"
+    script: "privateGPT.py"
+    documents_path: "source_documents"
+    
+  gpt4all:
+    path: "X:/gpt4all_cli"
+    script: "app.py"
+    
+  lm_studio:
+    url: "http://localhost:1234"
+    api_version: "v1"
+    timeout: 30
+    
+  models_directory: "X:/LLM-Models"
+  text_vault: "X:/TEXT-VAULT"
+  ai_prompts: "X:/AIPROMPTS"
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  files:
+    system: "X:/AI_Agent_Ecosystem/logs/system.log"
+    orchestrator: "X:/AI_Agent_Ecosystem/logs/orchestrator.log"
+    api: "X:/AI_Agent_Ecosystem/logs/api.log"
+    agents: "X:/AI_Agent_Ecosystem/logs/agents/"
+  rotation:
+    max_size: "10MB"
+    backup_count: 5
+
+# Performance monitoring
+monitoring:
+  metrics_interval: 60  # seconds
+  health_check_interval: 30  # seconds
+  alert_thresholds:
+    task_failure_rate: 0.1  # 10%
+    queue_size_warning: 20
+    queue_size_critical: 50
+    memory_usage_warning: 0.8  # 80%
+    memory_usage_critical: 0.9  # 90%
+
+# Security settings
+security:
+  enable_api_auth: false  # Set to true for production
+  api_key_header: "X-API-Key"
+  allowed_ips:
+    - "127.0.0.1"
+    - "192.168.0.0/16"
+    - "10.0.0.0/8"
+  
+# Cache settings
+cache:
+  enabled: true
+  ttl: 3600  # 1 hour
+  max_size: 1000  # Maximum number of cached results
+  cleanup_interval: 1800  # 30 minutes
+
+# Task retry settings
+retry:
+  max_retries: 3
+  base_delay: 1  # seconds
+  max_delay: 60  # seconds
+  exponential_backoff: true
