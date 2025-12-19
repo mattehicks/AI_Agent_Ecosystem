@@ -105,6 +105,11 @@ if web_dir.exists():
 else:
     logger.warning(f"Web directory not found: {web_dir}")
 
+# Add favicon route to prevent 404 errors
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return {"message": "No favicon"}
+
 # Startup event
 @app.on_event("startup")
 async def startup_event():
@@ -210,8 +215,8 @@ async def health_check(orch: AgentOrchestrator = Depends(get_orchestrator)):
                 ollama_status = await ollama_integration.get_service_status()
                 components["ollama"] = {
                     "status": ollama_status['service_health']['status'],
-                    "available_models": ollama_status['available_models'],
-                    "default_model": ollama_status['default_model']
+                    "available_models": str(ollama_status['available_models']),
+                    "default_model": str(ollama_status['default_model'])
                 }
             else:
                 components["ollama"] = {"status": "not_initialized"}

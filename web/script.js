@@ -22,10 +22,17 @@ class AIEcosystemDashboard {
     }
 
     init() {
+        console.log('Initializing AI Ecosystem Dashboard...');
         this.setupNavigation();
         this.setupSidebar();
         this.setupWebSocket();
-        this.setupResearchCategories();
+        
+        // Add a delay to ensure DOM is fully rendered
+        setTimeout(() => {
+            console.log('Setting up research categories...');
+            this.setupResearchCategories();
+        }, 500);
+        
         this.startPeriodicUpdates();
         this.loadInitialData();
     }
@@ -2025,6 +2032,12 @@ class AIEcosystemDashboard {
         alert('Manual backend addition coming soon. Use the discovery feature for now.');
     }
 
+    // System metrics update handler
+    updateSystemMetrics(metrics) {
+        console.log('Updating system metrics:', metrics);
+        // Handle system metrics updates - placeholder for now
+    }
+
     // Cleanup method
     destroy() {
         if (this.websocket) {
@@ -2041,17 +2054,43 @@ class AIEcosystemDashboard {
     setupResearchCategories() {
         // Category selection handlers
         const categoryContainers = document.querySelectorAll('.category-container');
-        categoryContainers.forEach(container => {
+        console.log(`Found ${categoryContainers.length} category containers`);
+        
+        if (categoryContainers.length === 0) {
+            console.error('No category containers found! Checking HTML structure...');
+            const researchSection = document.getElementById('research');
+            console.log('Research section:', researchSection);
+            if (researchSection) {
+                console.log('Research section HTML:', researchSection.innerHTML.substring(0, 500));
+            }
+            return;
+        }
+        
+        categoryContainers.forEach((container, index) => {
+            console.log(`Setting up category container ${index}:`, container);
+            
             container.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
                 const category = container.getAttribute('data-category');
+                console.log(`Clicked category: ${category}`);
                 this.showWorkspace(category);
             });
+            
+            // Add visual feedback
+            container.style.cursor = 'pointer';
+            container.style.userSelect = 'none';
         });
 
         // Back to categories handlers
         const backButtons = document.querySelectorAll('[id^="back-to-categories"]');
-        backButtons.forEach(button => {
-            button.addEventListener('click', () => {
+        console.log(`Found ${backButtons.length} back buttons`);
+        backButtons.forEach((button, index) => {
+            console.log(`Setting up back button ${index}:`, button.id);
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Back to categories clicked from:', button.id);
                 this.showCategories();
             });
         });
@@ -2067,31 +2106,50 @@ class AIEcosystemDashboard {
     }
 
     showWorkspace(category) {
+        console.log(`Showing workspace for category: ${category}`);
+        
         // Hide categories
         const categoriesSection = document.getElementById('research-categories');
+        console.log('Categories section:', categoriesSection);
         if (categoriesSection) {
             categoriesSection.style.display = 'none';
+            console.log('Categories section hidden');
+        } else {
+            console.error('Categories section not found!');
         }
 
         // Show appropriate workspace
         const workspaceId = `${category.replace('_', '-')}-workspace`;
+        console.log(`Looking for workspace: ${workspaceId}`);
         const workspace = document.getElementById(workspaceId);
+        console.log('Workspace element:', workspace);
         if (workspace) {
             workspace.style.display = 'block';
+            console.log(`Workspace ${workspaceId} shown`);
+        } else {
+            console.error(`Workspace ${workspaceId} not found!`);
         }
     }
 
     showCategories() {
+        console.log('Showing categories...');
+        
         // Show categories
         const categoriesSection = document.getElementById('research-categories');
+        console.log('Categories section:', categoriesSection);
         if (categoriesSection) {
             categoriesSection.style.display = 'block';
+            console.log('Categories section shown');
+        } else {
+            console.error('Categories section not found!');
         }
 
         // Hide all workspaces
         const workspaces = document.querySelectorAll('.workspace-interface');
+        console.log(`Found ${workspaces.length} workspaces to hide`);
         workspaces.forEach(workspace => {
             workspace.style.display = 'none';
+            console.log(`Hidden workspace: ${workspace.id}`);
         });
     }
 
