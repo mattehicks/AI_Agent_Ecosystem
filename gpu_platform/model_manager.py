@@ -56,7 +56,7 @@ class ModelManager:
         self._scan_available_models()
     
     def _scan_available_models(self):
-        """Scan for available models in /mnt/llm/LLM-Models"""
+        """Scan models_base_path for installable model trees."""
         self.available_models = []
         
         try:

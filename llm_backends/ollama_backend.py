@@ -17,7 +17,8 @@ class OllamaBackend:
     """Ollama API client for local LLM inference"""
     
     def __init__(self, config: Dict[str, Any]):
-        self.base_url = config.get('base_url', 'http://localhost:11434')
+        # Default to VantaBlack remote server, fallback to localhost
+        self.base_url = config.get('base_url', 'http://vantablack:11434')
         self.timeout = config.get('timeout', 120)
         self.max_retries = config.get('max_retries', 3)
         self.session = None

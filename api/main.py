@@ -102,6 +102,18 @@ web_dir = Path(__file__).parent.parent / "web"
 if web_dir.exists():
     app.mount("/static", StaticFiles(directory=str(web_dir)), name="static")
     logger.info(f"Mounted static files from: {web_dir}")
+
+    @app.get("/styles.css", include_in_schema=False)
+    async def serve_dashboard_styles():
+        return FileResponse(web_dir / "styles.css")
+
+    @app.get("/script.js", include_in_schema=False)
+    async def serve_dashboard_script():
+        return FileResponse(web_dir / "script.js")
+
+    @app.get("/api-config.js", include_in_schema=False)
+    async def serve_dashboard_api_config():
+        return FileResponse(web_dir / "api-config.js")
 else:
     logger.warning(f"Web directory not found: {web_dir}")
 

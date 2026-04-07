@@ -5,9 +5,13 @@
 
 class AIEcosystemDashboard {
     constructor() {
-        this.apiBaseUrl = window.location.hostname === 'localhost' ? 
-            'http://localhost:8000' : 
-            `http://${window.location.hostname}:8000`;
+        const raw = window.AI_ECOSYSTEM_API_BASE;
+        const explicit = typeof raw === 'string' && raw.trim().length > 0;
+        const host = window.location.hostname;
+        const treatAsLocal = !host || host === 'localhost' || host === '127.0.0.1';
+        this.apiBaseUrl = explicit
+            ? raw.trim().replace(/\/$/, '')
+            : (treatAsLocal ? 'http://localhost:8000' : `http://${host}:8000`);
         
         this.websocket = null;
         this.updateInterval = null;
