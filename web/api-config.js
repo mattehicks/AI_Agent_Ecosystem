@@ -1,6 +1,8 @@
 // Split layout: dashboard on this PC, FastAPI on VantaBlack (no trailing slash).
-// Use the Ethernet / air-gapped LAN IP so the browser hits IPv4 :8000 (not mDNS/IPv6 on Wi‑Fi).
-window.AI_ECOSYSTEM_API_BASE = 'http://192.168.2.151:8000';
+// Default: Wi‑Fi LAN (same subnet as e.g. 192.168.0.12 → 192.168.0.15).
+window.AI_ECOSYSTEM_API_BASE = 'http://192.168.0.15:8000';
+// When your PC uses the direct Ethernet link only, set to: http://192.168.2.151:8000
+// (or use localStorage key ai_ecosystem_api_base — see below)
 
 // Optional override (browser console): localStorage.setItem('ai_ecosystem_api_base', 'http://HOST:8000'); location.reload();
 (function () {
