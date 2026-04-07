@@ -1,6 +1,6 @@
-// Optional: split layout — dashboard served from this PC (e.g. START_LOCAL_WEB_UI.bat on :8080)
-// while FastAPI runs on VantaBlack. Uncomment and set (no trailing slash):
-// window.AI_ECOSYSTEM_API_BASE = 'http://vantablack:8000';
+// Split layout: dashboard on this PC, FastAPI on VantaBlack (no trailing slash).
+// Use the Ethernet / air-gapped LAN IP so the browser hits IPv4 :8000 (not mDNS/IPv6 on Wi‑Fi).
+window.AI_ECOSYSTEM_API_BASE = 'http://192.168.2.151:8000';
 
 // Optional override (browser console): localStorage.setItem('ai_ecosystem_api_base', 'http://HOST:8000'); location.reload();
 (function () {

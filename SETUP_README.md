@@ -23,14 +23,14 @@ cd /mnt/llm/AI_Agent_Ecosystem && source venv/bin/activate && export DISABLE_GPU
 **Check from your PC:**
 
 ```powershell
-curl http://vantablack:8000/health
+curl http://192.168.2.151:8000/health
 ```
 
-If that fails, open **port 8000** on VantaBlack (firewall) and confirm the process is listening on `0.0.0.0:8000` (`ss -tlnp | grep 8000`).
+Use **`192.168.2.151`** when your PC is on the direct Ethernet / air‑gapped link to VantaBlack. If you reach the server only via Wi‑Fi (`192.168.0.15`), use that host instead. If `curl` fails, allow **TCP 8000** on VantaBlack and confirm **`0.0.0.0:8000`** is listening (`ss -tlnp | grep 8000`).
 
 ### 2. On your PC — point the dashboard at the API
 
-1. Edit `web\api-config.js` and set `window.AI_ECOSYSTEM_API_BASE` to your API URL, e.g. `http://vantablack:8000` or `http://192.168.x.x:8000`.
+1. Edit `web\api-config.js` — default is **`http://192.168.2.151:8000`** (direct LAN to VantaBlack). Change it if your route to the API uses another IP or hostname.
 2. Start a **local static server** (do not use `file://` — browsers block cross-origin requests):
 
 ```bat
