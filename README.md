@@ -36,6 +36,13 @@ A comprehensive AI agent management platform with specialized research categorie
 - Ollama installed
 - Access to model files
 
+### Documentation
+
+- **[docs/setup.md](docs/setup.md)** — VantaBlack + split UI (local dashboard, remote API), networking, Git  
+- **[docs/integration.md](docs/integration.md)** — Integration and architecture  
+- **[docs/README.md](docs/README.md)** — Doc index  
+- **[docs/archive/](docs/archive/)** — Older troubleshooting notes  
+
 ### Installation
 
 1. **Clone the repository**:
@@ -91,16 +98,18 @@ A comprehensive AI agent management platform with specialized research categorie
 
 ```
 AI_Agent_Ecosystem/
-├── api/                    # FastAPI backend
-├── agents/                 # AI agent implementations
-├── orchestrator/          # Task coordination and management
-├── llm_backends/          # LLM integration (Ollama, etc.)
-├── features/              # Feature modules
-│   ├── file_management/   # Document processing pipeline
-│   └── document_analysis/ # Document analysis tools
-├── web/                   # Frontend interface
-├── config/                # Configuration files
-└── logs/                  # Application logs
+├── api/                 # FastAPI backend
+├── agents/              # AI agent implementations
+├── orchestrator/        # Task coordination
+├── llm_backends/        # Ollama and other LLM adapters
+├── features/            # Feature modules (file_management, document_analysis, …)
+├── web/                 # Dashboard (static HTML/JS/CSS)
+├── monitoring/          # Status tracking, realtime monitor
+├── scripts/             # start/stop helpers, fix DB, remote API starter
+├── tests/               # Ad-hoc / integration test scripts
+├── docs/                # Setup, integration, archived notes
+├── config/              # YAML/JSON settings
+└── logs/                # Runtime logs (gitignored)
 ```
 
 ## 🔌 API Endpoints
@@ -177,9 +186,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 📞 Support
 
 For support and questions:
-- Create an issue on GitHub
-- Check the documentation in `/docs`
-- Review the API documentation at `/docs` endpoint
+- Create an issue on GitHub  
+- See **[docs/setup.md](docs/setup.md)** and the [docs/](docs/) folder  
+- With the API running, open **http://localhost:8000/docs** (Swagger) or **/redoc**
 
 ---
 

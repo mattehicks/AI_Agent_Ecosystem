@@ -18,7 +18,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 
 from gpu_platform.gpu_manager import GPUManager
 from config.settings import get_config
-from status_tracker import status_tracker
+from monitoring.status_tracker import status_tracker
 
 logger = logging.getLogger(__name__)
 

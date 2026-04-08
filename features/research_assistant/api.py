@@ -18,7 +18,7 @@ from .models import (
     ResearchResult, DocumentInfo
 )
 from .workflows import workflow_manager
-from status_tracker import status_tracker
+from monitoring.status_tracker import status_tracker
 
 router = APIRouter(prefix="/research-assistant", tags=["research-assistant"])
 

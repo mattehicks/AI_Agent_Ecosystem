@@ -122,7 +122,8 @@ EOF
 
 # Run the database initialization
 echo "🚀 Running database initialization..."
-python3 fix_database.py
+# Prefer committed helper (run from repo root):
+python3 "$(dirname "$0")/fix_database.py"
 
 # Check if database was created successfully
 if [ -f "data/orchestrator.db" ]; then

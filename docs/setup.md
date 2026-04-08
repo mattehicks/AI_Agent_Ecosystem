@@ -136,5 +136,5 @@ python3 /mnt/llm/rag_query.py "test question" 5 YOUR_OLLAMA_MODEL_NAME
 
 ## More docs
 
-- `INTEGRATION_GUIDE.md` — architecture notes  
-- `README.md` — project overview  
+- [integration.md](integration.md) — architecture notes  
+- [README.md](../README.md) — project overview  

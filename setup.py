@@ -259,61 +259,48 @@ class AgentEcosystemSetup:
     def create_startup_scripts(self):
         """Create startup scripts for the system"""
         logger.info("Creating startup scripts...")
-        
-        # Windows batch script
+        scripts_dir = self.base_path / "scripts"
+        scripts_dir.mkdir(parents=True, exist_ok=True)
+
         batch_script = """@echo off
 echo Starting AI Agent Ecosystem...
-
-REM Start the orchestrator
-cd /d "X:\\AI_Agent_Ecosystem"
+cd /d "%~dp0.."
 start "Orchestrator" python orchestrator\\orchestrator.py
-
-REM Wait a moment for orchestrator to start
 timeout /t 5 /nobreak > nul
-
-REM Start the API server
 start "API Server" python api\\main.py
-
 echo AI Agent Ecosystem started!
 echo API available at: http://localhost:8000
 echo Documentation at: http://localhost:8000/docs
-
 pause
 """
         
-        with open(self.base_path / "start_ecosystem.bat", "w", encoding='utf-8') as f:
+        with open(scripts_dir / "start_ecosystem.bat", "w", encoding='utf-8') as f:
             f.write(batch_script)
         
-        # Python startup script
-        python_script = """#!/usr/bin/env python3
+        python_script = f"""#!/usr/bin/env python3
 import asyncio
 import subprocess
 import sys
-import time
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
 
 async def start_ecosystem():
     print("Starting AI Agent Ecosystem...")
-    
-    # Start orchestrator
-    orchestrator_proc = subprocess.Popen([
-        sys.executable, "orchestrator/orchestrator.py"
-    ], cwd="X:/AI_Agent_Ecosystem")
-    
-    # Wait for orchestrator to initialize
+    orchestrator_proc = subprocess.Popen(
+        [sys.executable, str(ROOT / "orchestrator" / "orchestrator.py")],
+        cwd=str(ROOT),
+    )
     await asyncio.sleep(5)
-    
-    # Start API server
-    api_proc = subprocess.Popen([
-        sys.executable, "api/main.py"
-    ], cwd="X:/AI_Agent_Ecosystem")
-    
-    print("✅ AI Agent Ecosystem started!")
-    print("📡 API available at: http://localhost:8000")
-    print("📚 Documentation at: http://localhost:8000/docs")
-    
+    api_proc = subprocess.Popen(
+        [sys.executable, str(ROOT / "api" / "main.py")],
+        cwd=str(ROOT),
+    )
+    print("AI Agent Ecosystem started!")
+    print("API available at: http://localhost:8000")
+    print("Documentation at: http://localhost:8000/docs")
     try:
-        # Keep running
         while True:
             await asyncio.sleep(10)
     except KeyboardInterrupt:
@@ -325,7 +312,7 @@ if __name__ == "__main__":
     asyncio.run(start_ecosystem())
 """
         
-        with open(self.base_path / "start_ecosystem.py", "w", encoding='utf-8') as f:
+        with open(scripts_dir / "start_ecosystem.py", "w", encoding='utf-8') as f:
             f.write(python_script)
         
         logger.info("[OK] Startup scripts created")
@@ -358,8 +345,8 @@ if __name__ == "__main__":
         print("="*60)
         print("\nNEXT STEPS:")
         print("\n1. Start the system:")
-        print(f"   • Windows: Run X:\\AI_Agent_Ecosystem\\start_ecosystem.bat")
-        print(f"   • Python:  python X:\\AI_Agent_Ecosystem\\start_ecosystem.py")
+        print(f"   • Windows: Run {self.base_path}\\scripts\\start_ecosystem.bat")
+        print(f"   • Python:  python {self.base_path}\\scripts\\start_ecosystem.py")
         
         print("\n2. Access the API:")
         print("   • API Endpoint: http://localhost:8000")

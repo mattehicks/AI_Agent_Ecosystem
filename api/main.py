@@ -1021,7 +1021,7 @@ async def websocket_endpoint(websocket: WebSocket):
                     
                     # Send status update for the status tracker (less frequently)
                     if client_subscriptions["status_updates"]:
-                        from status_tracker import status_tracker
+                        from monitoring.status_tracker import status_tracker
                         status_tracker.log_gpu_update(
                             len(gpu_metrics.get("gpus", {})),
                             gpu_metrics.get("summary", {}).get("average_utilization", 0)

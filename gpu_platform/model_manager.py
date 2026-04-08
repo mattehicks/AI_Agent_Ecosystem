@@ -16,7 +16,7 @@ import sys
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
-from status_tracker import status_tracker
+from monitoring.status_tracker import status_tracker
 
 logger = logging.getLogger(__name__)
 

@@ -1,14 +1,13 @@
 @echo off
+REM Start orchestrator + API; repo root is parent of scripts\
+cd /d "%~dp0.."
 echo Starting AI Agent Ecosystem...
+echo ROOT=%CD%
 
-REM Start the orchestrator
-cd /d "X:\AI_Agent_Ecosystem"
 start "Orchestrator" python orchestrator\orchestrator.py
 
-REM Wait a moment for orchestrator to start
 timeout /t 5 /nobreak > nul
 
-REM Start the API server
 start "API Server" python api\main.py
 
 echo AI Agent Ecosystem started!

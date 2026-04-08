@@ -246,35 +246,34 @@ class AgentEcosystemSetup:
     def create_startup_scripts(self):
         """Create startup scripts for the system"""
         logger.info("Creating startup scripts...")
-        
-        # Linux startup script
+        scripts_dir = self.base_path / "scripts"
+        scripts_dir.mkdir(parents=True, exist_ok=True)
+
+        # Linux startup script (lives in scripts/, repo root is parent)
         startup_script = f"""#!/bin/bash
 # AI Agent Ecosystem Startup Script for Linux
 
+SCRIPT_DIR="$(cd "$(dirname "${{BASH_SOURCE[0]}}")" && pwd)"
+ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$ROOT" || exit 1
+
 echo "Starting AI Agent Ecosystem on Linux..."
+echo "ROOT=$ROOT"
 
-# Change to project directory
-cd {self.base_path}
-
-# Activate virtual environment
 source venv/bin/activate
 
-# Start the orchestrator in background
 echo "Starting orchestrator..."
 nohup python orchestrator/orchestrator.py > logs/orchestrator.log 2>&1 &
 ORCHESTRATOR_PID=$!
 echo "Orchestrator started with PID: $ORCHESTRATOR_PID"
 
-# Wait for orchestrator to initialize
 sleep 5
 
-# Start the API server in background
 echo "Starting API server..."
 nohup python api/main.py > logs/api.log 2>&1 &
 API_PID=$!
 echo "API server started with PID: $API_PID"
 
-# Save PIDs for shutdown script
 echo $ORCHESTRATOR_PID > /tmp/ai_ecosystem_orchestrator.pid
 echo $API_PID > /tmp/ai_ecosystem_api.pid
 
@@ -282,17 +281,16 @@ echo ""
 echo "=== AI Agent Ecosystem Started Successfully! ==="
 echo "API available at: http://localhost:8000"
 echo "Documentation at: http://localhost:8000/docs"
-echo "Logs available in: {self.base_path}/logs/"
+echo "Logs available in: $ROOT/logs/"
 echo ""
-echo "To stop the system, run: ./stop_ecosystem.sh"
+echo "To stop the system, run: $ROOT/scripts/stop_ecosystem.sh"
 echo "To monitor logs: tail -f logs/orchestrator.log logs/api.log"
 """
         
-        with open(self.base_path / "start_ecosystem.sh", "w") as f:
+        with open(scripts_dir / "start_ecosystem.sh", "w") as f:
             f.write(startup_script)
         
-        # Make executable
-        os.chmod(self.base_path / "start_ecosystem.sh", 0o755)
+        os.chmod(scripts_dir / "start_ecosystem.sh", 0o755)
         
         # Create shutdown script
         shutdown_script = f"""#!/bin/bash
@@ -327,11 +325,10 @@ fi
 echo "AI Agent Ecosystem stopped."
 """
         
-        with open(self.base_path / "stop_ecosystem.sh", "w") as f:
+        with open(scripts_dir / "stop_ecosystem.sh", "w") as f:
             f.write(shutdown_script)
         
-        # Make executable
-        os.chmod(self.base_path / "stop_ecosystem.sh", 0o755)
+        os.chmod(scripts_dir / "stop_ecosystem.sh", 0o755)
         
         logger.info("[OK] Startup scripts created")
 
@@ -371,7 +368,7 @@ echo "AI Agent Ecosystem stopped."
         print("\n1. Start the system:")
         print(f"   • SSH: ssh lightspeed@192.168.2.151")
         print(f"   • Navigate: cd {self.base_path}")
-        print(f"   • Start: ./start_ecosystem.sh")
+        print(f"   • Start: ./scripts/start_ecosystem.sh")
         
         print("\n2. Access the API:")
         print("   • API Endpoint: http://192.168.2.151:8000")
